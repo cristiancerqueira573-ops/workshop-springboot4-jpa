@@ -1,8 +1,7 @@
 package com.educandoweb.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.AfterDomainEventPublication;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -19,7 +18,9 @@ public class Order  implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long id;
+	private Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant moment;
 
 
@@ -28,7 +29,7 @@ public class Order  implements Serializable {
     private User client = new User();
 
 
-    public Order(long id, User client, Instant moment) {
+    public Order(Long id, User client, Instant moment) {
         this.id = id;
         this.client = client;
         this.moment = moment;
@@ -38,12 +39,20 @@ public class Order  implements Serializable {
     }
 
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
+    }
+
+    public User getClient() {
+        return client;
+    }
+
+    public void setClient(User client) {
+        this.client = client;
     }
 
     public Instant getMoment() {
