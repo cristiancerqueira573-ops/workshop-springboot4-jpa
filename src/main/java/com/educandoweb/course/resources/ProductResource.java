@@ -4,6 +4,7 @@ import com.educandoweb.course.entities.Category;
 import com.educandoweb.course.entities.Product;
 import com.educandoweb.course.services.CategoryService;
 import com.educandoweb.course.services.ProductService;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +20,8 @@ public class ProductResource {
 
 	@Autowired
 	private ProductService service;
-	
-	
+
+
 	@GetMapping
 	public ResponseEntity<List<Product>> findAll() {
 		List<Product> list =  service.findAll();
@@ -28,7 +29,7 @@ public class ProductResource {
 		
 	}
 	
-	
+
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<Product> findById(@PathVariable Long id) {
 		Product obj = service.findById(id);
