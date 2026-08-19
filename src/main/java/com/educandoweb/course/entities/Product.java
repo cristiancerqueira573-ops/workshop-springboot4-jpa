@@ -8,6 +8,8 @@ import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 @Entity
 @Table(name = "tb_product")
@@ -23,10 +25,15 @@ public class Product implements Serializable {
     private double price;
     private String imgUrl;
 
+    @OneToMany(mappedBy = "id.product", fetch = FetchType.EAGER)
+    private Set<OrderItem> Items = new HashSet<>();
+
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "tb_product_category",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "category_id"))
+
+
 
    private Set<Category> categories = new HashSet<Category>();
 
@@ -86,6 +93,15 @@ public class Product implements Serializable {
 
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    @JsonIgnore
+    public Set<Order> getOrders() {
+        Set<Order> set = new HashSet<>();
+        for (OrderItem x : Items) {
+            set.add(x.getOrder());
+        }
+        return set;
     }
 
 

@@ -65,7 +65,7 @@ public class OrderItem implements Serializable {
     public void setPrice(Double price) {
         this.price = price;
     }
-
+   
     public Product getProduct() {
         return id.getProduct();
     }
