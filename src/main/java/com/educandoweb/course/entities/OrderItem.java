@@ -22,7 +22,7 @@ public class OrderItem implements Serializable {
     private Double price;
 
 
-    public double subTotal() {
+    public double getSubTotal() {
         return price * quantity;
 
 
