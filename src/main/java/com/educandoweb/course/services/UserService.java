@@ -24,8 +24,16 @@ public class UserService {
 		return obj.get();
 	}
 	
-	
-	
-	
+	public User Insert(User user) {
+		return repository.save(user);
+	}
+
+	public User Update(User user) {
+		return repository.save(user);
+	}
+
+	public void delete(User user) {
+		repository.delete(user);
+	}
 	
 }
