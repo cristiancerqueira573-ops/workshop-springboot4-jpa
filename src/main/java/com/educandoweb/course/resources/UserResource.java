@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import com.educandoweb.course.entities.User;
 import com.educandoweb.course.services.UserService;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @RestController
 @RequestMapping(value = "/users")
@@ -41,6 +42,16 @@ public class UserResource {
 		return ResponseEntity.created(uri).body(obj);
 		
 	}
+
+	@DeleteMapping(value = "/{id}")
+	public ResponseEntity<Void> delete(@PathVariable Long id) {
+		service.delete(id);
+		return ResponseEntity.noContent().build();
+	}
+
+
+
+
 
 }
 
