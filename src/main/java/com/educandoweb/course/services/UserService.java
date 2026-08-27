@@ -28,8 +28,16 @@ public class UserService {
 		return repository.save(user);
 	}
 
-	public User Update(User user) {
-		return repository.save(user);
+	public User Update(Long id, User user) {
+		User entity = repository.findById(id).orElseThrow(() -> new RuntimeException("User not found with id: " + id));
+		updateData(entity, user);
+		return repository.save(entity);
+	}
+
+	private void updateData(User entity, User user) {
+		entity.setName(user.getName());
+		entity.setEmail(user.getEmail());
+		entity.setPhone(user.getPhone());
 	}
 
 	public void delete(Long id) {
