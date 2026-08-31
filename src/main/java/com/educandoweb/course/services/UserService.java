@@ -3,8 +3,11 @@ package com.educandoweb.course.services;
 import java.util.List;
 import java.util.Optional;
 
+import com.educandoweb.course.services.exceptions.DataBaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.educandoweb.course.entities.User;
@@ -19,12 +22,12 @@ public class UserService {
 	public List<User> findAll() {
 		return repository.findAll();
 	}
-	
+
 	public User findById(Long id) {
 		Optional<User> obj = repository.findById(id);
 		return obj.orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
 	}
-	
+
 	public User Insert(User user) {
 		return repository.save(user);
 	}
@@ -42,7 +45,16 @@ public class UserService {
 	}
 
 	public void delete(Long id) {
-		repository.deleteById(id);
+	User entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+
+		try {
+			repository.deleteById(id);
+		} catch (EmptyResultDataAccessException e) {
+			throw new ResourceNotFoundException("User not found with id: " + id);
+		}
+		catch (DataIntegrityViolationException e) {
+			throw new DataBaseException(e.getMessage());
+		}
+
 	}
-	
 }

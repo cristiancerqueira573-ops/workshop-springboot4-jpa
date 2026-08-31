@@ -1,5 +1,6 @@
 package com.educandoweb.course.resources.exceptions;
 
+import com.educandoweb.course.services.exceptions.DataBaseException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -20,6 +21,20 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError(Instant.now(),status.value(),error, ex.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
+
+
+
+
+    @ExceptionHandler(DataBaseException.class)
+    public ResponseEntity<StandardError> databaseError(DataBaseException ex, HttpServletRequest request) {
+        String error = "Database error";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(Instant.now(),status.value(),error, ex.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
+
+
 
 
 
